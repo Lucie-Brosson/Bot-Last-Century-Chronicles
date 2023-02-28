@@ -28,6 +28,7 @@ client.on("messageCreate",(message) =>{
     const argument = messageArray.slice(1);
     const cmd = messageArray[0];
 
+    // autre Fonction 
 
     function checkIfContainsSync(filename, str){
         const contents = readFileSync(filename,'utf-8');
@@ -37,6 +38,17 @@ client.on("messageCreate",(message) =>{
     }
 
     user = message.member.user.username;
+
+    if (command === "test"){
+        message.channel.send("Dédé is working!")
+        let data = "Dédé écrit"
+        
+        fs.appendFile('Output.txt', 'Hello content!', function (err) {
+            if (err) throw err;
+            console.log('Saved!');
+          });
+
+    }
 
     if (command === "start"){
         fs.writeFile(user+'.txt',"1", function (err) {
@@ -55,14 +67,15 @@ client.on("messageCreate",(message) =>{
         if (resultDice == parseInt(command)){
             diceStatus = "  Réussite critique"
         }
-        if (resultDice === 42){
-            message.channel.send("La réponse à toute les questions")
-        }
         message.channel.send("Résultat: " + resultDice + diceStatus)
     }
 
+    if (command === "d42"){
+        message.channel.send("Pour Rémi, la solution à l'univers")
+    }
+
     if (command === "folie"){
-        resultDiceFolie = diceInt(7)
+        resultDiceFolie = Math.floor(Math.random() * (7 - 1) + 1);
         message.channel.send("Dans ce sombre monde la folie est proche. Reprends ton dernier résultat de folie \n et compare le au nouveau. Si ce dernier est au dessus, tu gagne un point de folie \n Résultat: " + resultDiceFolie )
         
         fs.readFile(user+".txt",(err,data)=>{
@@ -81,6 +94,16 @@ client.on("messageCreate",(message) =>{
                     console.log(folieNiveau.toString())
                 } 
         message.channel.send("Ton niveau est de " + folieNiveau.toString())                 
+        })
+    }
+
+    if (command === "niveau"){
+
+        fs.readFile(user+".txt",(err,data)=>{
+            if (err) throw err; 
+            folieNiveau = data;
+            console.log(folieNiveau)
+            message.channel.send("Ton niveau est de " + folieNiveau.toString()+"/n Bonne chance!")                 
         })
     }
 
@@ -178,11 +201,6 @@ client.on("messageCreate",(message) =>{
         })
     }
 
-    if (command === "dodo"){
-        message.channel.send("Bonne nuit les petits ! https://urlz.fr/kmD4 ");
-    }
-
 })
 
-
-client.login(key);
+client.login("discord key");
